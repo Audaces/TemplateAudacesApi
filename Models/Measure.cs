@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace TemplateAudacesApi.Models;
+﻿namespace TemplateAudacesApi.Models;
 
 public class Measure
 {
@@ -8,17 +6,16 @@ public class Measure
     {
         type = "measure";
     }
-    public string type { get; set; }
-    public string uid { get; set; }
-    public string name { get; set; }
-    public string reference { get; set; }
-    public string description { get; set; }
-    public string value { get; set; }
-    public string measure_unit { get; set; }
-    public string last_modified { get; set; }
-    public string notes { get; set; }
-    public MeasureValues values { get; set; }
-    public JObject internal_custom_fields_object { get; set; }
+    public string? type { get; set; }
+    public string? uid { get; set; }
+    public string? name { get; set; }
+    public string? reference { get; set; }
+    public string? description { get; set; }
+    public double? value { get; set; }
+    public string? measure_unit { get; set; }
+    public string? last_modified { get; set; }
+    public string? notes { get; set; }
+    public MeasureValues? values { get; set; }
 
     public bool Filter(string _reference, string _description)
     {
@@ -61,8 +58,8 @@ public class Measure
 
 public class MeasureValues
 {
-    public double P { get; set; }
-    public double M { get; set; }
-    public double G { get; set; }
-    public string order { get; set; }
+    public double? P { get; set; }
+    public double? M { get; set; }
+    public double? G { get; set; }
+    public string? order { get; set; }
 }

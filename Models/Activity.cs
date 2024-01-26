@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-
-namespace TemplateAudacesApi.Models;
+﻿namespace TemplateAudacesApi.Models;
 
 public class Activity
 {
@@ -9,18 +6,17 @@ public class Activity
     {
         type = "activity";
     }
-    public string type { get; set; }
-    public string uid { get; set; }
-    public string name { get; set; }
-    public string reference { get; set; }
-    public string description { get; set; }
-    public double value { get; set; }
-    public double time { get; set; }
-    public string notes { get; set; }
-    public string sector { get; set; }
-    public string machine { get; set; }
-    public string measure_unit { get; set; }
-    public Dictionary<string, JObject> activivty_internal_custom_fields { get; set; }
+    public string? type { get; set; }
+    public string? uid { get; set; }
+    public string? name { get; set; }
+    public string? reference { get; set; }
+    public string? description { get; set; }
+    public double? value { get; set; }
+    public string? measure_unit { get; set; }
+    public double? time { get; set; }
+    public string? notes { get; set; }
+    public string? sector { get; set; }
+    public string? machine { get; set; }
     public bool Filter(string _reference)
     {
         if (string.IsNullOrEmpty(_reference))

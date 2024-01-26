@@ -144,7 +144,7 @@ public class ValuesController : ControllerBase
                 name      = "gola",
                 reference = "MSRGola",
                 notes     = "Testeeeee",
-                value     = "1.5",
+                value     = 1.5,
                 measure_unit = "mm",
                 last_modified = "2018-09-07T12:31Z",
                 values = new MeasureValues

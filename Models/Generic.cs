@@ -1,22 +1,18 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-
-namespace TemplateAudacesApi.Models;
+﻿namespace TemplateAudacesApi.Models;
 
 public class Generic
 {
-    public string type { get; set; }
-    public string uid { get; set; }
-    public string name { get; set; }
-    public string reference { get; set; }
-    public string description { get; set; }
-    public double value { get; set; }
-    public string measure_unit { get; set; }
-    public string last_modified { get; set; }
-    public string endereco { get; set; }
-    public string telefone { get; set; }
-    public Dictionary<string, string> internal_custom_fields { get; set; }
-    public Dictionary<string, JObject> internal_custom_fields_object { get; set; }
+    public string? type { get; set; }
+    public string? uid { get; set; }
+    public string? name { get; set; }
+    public string? reference { get; set; }
+    public string? description { get; set; }
+    public string? notes { get; set; }
+    public double? value { get; set; }
+    public string? measure_unit { get; set; }
+    public string? last_modified { get; set; }
+    public string? endereco { get; set; }
+    public string? telefone { get; set; }
     public bool Filter(string _reference)
     {
         if (string.IsNullOrEmpty(_reference))

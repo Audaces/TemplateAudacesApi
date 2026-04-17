@@ -32,6 +32,6 @@ public class Item
     public string? designer { get; set; }
     public string? date_register { get; set; }
     public string? usage { get; set; }
-    public string? composicao { get; set; }
-    public string? Tamanho { get; set; }
+    public string? composition { get; set; }
+    public string? size { get; set; }
 }

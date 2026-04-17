@@ -2,6 +2,10 @@
 
 public class Generic
 {
+    public Generic()
+    {
+        type = "generic";
+    }
     public string? type { get; set; }
     public string? uid { get; set; }
     public string? name { get; set; }
@@ -11,8 +15,8 @@ public class Generic
     public double? value { get; set; }
     public string? measure_unit { get; set; }
     public string? last_modified { get; set; }
-    public string? endereco { get; set; }
-    public string? telefone { get; set; }
+    public string? address { get; set; }
+    public string? phone { get; set; }
     public bool Filter(string _reference)
     {
         if (string.IsNullOrEmpty(_reference))

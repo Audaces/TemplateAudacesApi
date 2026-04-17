@@ -2,6 +2,17 @@
 
 namespace TemplateAudacesApi.Models;
 
+/// <summary>
+/// Representa um material (matéria-prima) — type = "raw_material".
+///
+/// Campos fixos (reconhecidos e processados pelo Audaces IDEA):
+///   uid, name, reference, type, value, measure_unit, product_group, supplier, description
+///
+/// Campos sugeridos (opcionais, enriquecem a visualização no IDEA):
+///   notes, collection, currency, last_modified, images, variants
+///
+/// Campos customizados: utilizar custom_fields nas variantes.
+/// </summary>
 public class Material
 {
     public Material()

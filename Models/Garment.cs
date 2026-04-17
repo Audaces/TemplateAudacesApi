@@ -2,6 +2,24 @@
 
 namespace TemplateAudacesApi.Models;
 
+/// <summary>
+/// Modelo de saída (GET). Representa um produto acabado retornado pelo Audaces IDEA.
+/// Utilizado para serializar a resposta nos endpoints de consulta.
+///
+/// Campos fixos (reconhecidos e processados pelo Audaces IDEA):
+///   uid, name, reference, type, value, collection, product_group, description
+///
+/// Campos sugeridos (opcionais, enriquecem a visualização no IDEA):
+///   notes, responsible, currency, last_modified, filename, revision, author, images, variants
+///
+/// Campos customizados: utilizar custom_fields.
+///
+/// Importante — Cor em finished_product:
+///   A cor NÃO deve ser informada pelo objeto Color da variante.
+///   Deve ser representada como CustomField no nível do Garment/FinishedProduct:
+///   Ex: custom_fields = [{ name="Cor", type="string", value="White", options=["White","Black"] }]
+///   As variantes devem carregar os items correspondentes a cada combinação de cor/tamanho.
+/// </summary>
 public class Garment
 {
     public Garment()

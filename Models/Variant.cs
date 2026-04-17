@@ -2,6 +2,17 @@
 
 namespace TemplateAudacesApi.Models;
 
+/// <summary>
+/// Representa uma variante de um produto. O uso dos campos varia conforme o tipo do produto pai:
+///
+/// raw_material:
+///   - color : objeto estruturado com uid, rgb e value (ex: variação de cor do botão).
+///   - items : não utilizado.
+///
+/// finished_product:
+///   - color : NÃO utilizado. A cor é informada como CustomField no próprio Garment/FinishedProduct pai.
+///   - items : lista de componentes/materiais por combinação de cor e tamanho.
+/// </summary>
 public class Variant
 {
     public string? name { get; set; }

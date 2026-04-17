@@ -1,6 +1,6 @@
 ﻿namespace TemplateAudacesApi.Models;
 
-public class StatusRetorno
+public class StatusResponse
 {
     public string? uid { get; set; }
     public string? status { get; set; }

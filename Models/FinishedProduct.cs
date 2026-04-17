@@ -2,6 +2,10 @@
 
 namespace TemplateAudacesApi.Models;
 
+/// <summary>
+/// Modelo de entrada (POST). Representa um produto acabado recebido pelo Audaces IDEA.
+/// Utilizado para deserializar o corpo da requisição no endpoint de garment.
+/// </summary>
 public class FinishedProduct
 {
     public FinishedProduct()

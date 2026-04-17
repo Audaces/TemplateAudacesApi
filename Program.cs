@@ -36,7 +36,7 @@ public class Program
                 Description = ""
             });
 
-            //c.EnableAnnotations();
+            c.EnableAnnotations();
 
             var jwtSecurityScheme = new OpenApiSecurityScheme
             {

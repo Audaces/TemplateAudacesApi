@@ -25,27 +25,27 @@ public class ValuesController : ControllerBase
     [HttpPost]
     [Route("v1/user/login")]
     [Consumes("application/x-www-form-urlencoded")]
-    public ActionResult<LoginRetorno> Login([FromForm] string username, [FromForm] string password)
+    public ActionResult<LoginResponse> Login([FromForm] string username, [FromForm] string password)
     {
         if (username == null || password == null)
         {
             Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return new LoginRetorno { error = "invalid_grant" };
+            return new LoginResponse { error = "invalid_grant" };
         }
 
         var user = UserRepository.Get(username, password);
         if (user == null)
         {
             Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return new LoginRetorno { error = "invalid_grant" };
+            return new LoginResponse { error = "invalid_grant" };
         }
 
         var token = TokenService.GenerateToken(user);
 
-        return new LoginRetorno
+        return new LoginResponse
         {
             access_token = token,
-            expires_in = 3600,
+            expires_in = 7200,
             token_type = "Bearer"
         };
     }
@@ -76,23 +76,43 @@ public class ValuesController : ControllerBase
 
         if (type == "raw_material")
         {
+            // raw_material: variantes representam variações de cor do material.
+            // Cada variante usa o objeto Color com uid, rgb e value.
             items.Add(new Material
             {
-                type = "raw_material",
-                uid = "BTN-ID1",
-                name = "Button 1",
-                reference = "BTN1",
-                description = "Small button",
-                value =  10.49,
+                type         = "raw_material",
+                uid          = "BTN-ID1",
+                name         = "Button 1",
+                reference    = "BTN1",
+                description  = "Small button",
+                value        = 10.49,
                 measure_unit = "UN",
-                product_group = "Buttons",
-                supplier = "ACME INC",
-                notes = "A small plastic button"
+                product_group= "Buttons",
+                supplier     = "ACME INC",
+                notes        = "A small plastic button",
+                variants     = new List<Variant>
+                {
+                    new Variant
+                    {
+                        label = "BTN1-WHITE",
+                        color = new Color { uid = "WHITE", value = "White", rgb = "#FFFFFF" },
+                        value = "10.49"
+                    },
+                    new Variant
+                    {
+                        label = "BTN1-BLACK",
+                        color = new Color { uid = "BLACK", value = "Black", rgb = "#000000" },
+                        value = "12.00"
+                    }
+                }
             });
         }
         else if (type == "finished_product")
         {
-            items.Add(new Garment
+            // finished_product: a cor NÃO vai no objeto Color da variante.
+            // A cor é representada como CustomField (com options) no nível do produto.
+            // Cada variante representa uma combinação cor/tamanho e carrega seus items (componentes).
+            items.Add(new FinishedProduct
             {
                 type         = "finished_product",
                 uid          = "039292",
@@ -103,6 +123,36 @@ public class ValuesController : ControllerBase
                 product_group= "Shirts",
                 collection   = "HIGHSTIL SUMMER 2017",
                 notes        = "Lyle & Scott 2",
+                custom_fields = new List<CustomField>
+                {
+                    new CustomField
+                    {
+                        name     = "Cor",
+                        type     = "string",
+                        value    = "White",
+                        editable = true,
+                        options  = new List<string> { "White", "Black", "Navy" }
+                    }
+                },
+                variants = new List<Variant>
+                {
+                    new Variant
+                    {
+                        label = "039292-WHITE-M",
+                        items = new List<Item>
+                        {
+                            new Item { uid = "BTN-WHITE", name = "Button White", type = "raw_material", measure_unit = "UN", value = 0.5 }
+                        }
+                    },
+                    new Variant
+                    {
+                        label = "039292-BLACK-M",
+                        items = new List<Item>
+                        {
+                            new Item { uid = "BTN-BLACK", name = "Button Black", type = "raw_material", measure_unit = "UN", value = 0.5 }
+                        }
+                    }
+                }
             });
         }
         else if (type == "activity")
@@ -130,8 +180,8 @@ public class ValuesController : ControllerBase
                 uid        = "CLN001",
                 reference  = "CLNABC",
                 name       = "cliente ABC",
-                endereco   = "Rua João Paulo 400",
-                telefone   = "011 987654321",
+                address    = "Rua João Paulo 400",
+                phone      = "011 987654321",
                 description= "cliente de São Paulo"
             });
         }
@@ -163,9 +213,9 @@ public class ValuesController : ControllerBase
     [HttpPost]
     [Route("v1/garment")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public StatusRetorno Garment([FromBody] Garment value, [FromQuery] string uid)
+    public StatusResponse Garment([FromBody] Garment value, [FromQuery] string? uid)
     {
-        StatusRetorno ret = new StatusRetorno
+        StatusResponse ret = new StatusResponse
         {
             uid = "",
             status = "not found",
@@ -180,7 +230,7 @@ public class ValuesController : ControllerBase
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public ActionResult<Byte[]> Picture([FromQuery] string uid)
     {
-        Image image = new Image(); //TODO: implementar codigo para pegar imagem pelo uid
+        Image? image = null; // TODO: buscar a imagem pelo uid informado
         if (image != null)
         {
             var filePath = image.get_image_name();
@@ -206,16 +256,16 @@ public class ValuesController : ControllerBase
         var ms = new MemoryStream();
         reader.BaseStream.CopyTo(ms);
 
-        return new StatusRetorno { uid = "7678", status = "ok", message = "a message describing the response of the request" };
+        return new StatusResponse { uid = "7678", status = "ok", message = "a message describing the response of the request" };
     }
 
     [HttpDelete]
-    [Route("garment/picture")]
+    [Route("v1/garment/picture")]
     [SwaggerOperation(Summary = "Remove picture from server")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public ActionResult<object> RemovePicture([FromQuery] string garment_uid, [FromQuery] string picture_uid)
     {
-        var retorno = new StatusRetorno
+        var retorno = new StatusResponse
         {
             status = "removed",
             uid = picture_uid
